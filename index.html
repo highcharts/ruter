@@ -38,6 +38,11 @@
 				font-size: 1.5em;
 			}
 
+			a.expired {
+				background: black;
+				opacity: 0.2;
+			}
+
 			hr {
 				margin: 1.3em 0;
 				border: 1px solid white;
@@ -60,10 +65,25 @@
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="./favicon/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
+		<script>
+			window.onload = function () {
+				document.querySelectorAll('*[data-expires]').forEach(a => {
+					const expires = a.getAttribute('data-expires');
+					const d = new Date(expires);
+					if (!isNaN(d.getTime()) && d.getTime() < Date.now()) {
+						a.classList.add('expired');
+						a.addEventListener('click', e => {
+							e.preventDefault();
+							alert(`Utgått sidan ${expires}`);
+						});
+					}
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<div id="container">
-			<a href="filer/balestrand-vinter.jpg">
+			<a href="filer/ferje-sommar.jpg" data-expires="2020-10-01">
 				<span class="type">Ferje</span>
 				<span class="where">Balestrandsektoren</span>
 			</a>
